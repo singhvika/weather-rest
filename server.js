@@ -43,5 +43,7 @@ server.listen(3000, (error)=> {
     }
     else{
         console.log(`server @ ${port}`);
+        console.log(`geocode key: ${utils.geocode_key}`);
+        console.log(`darksky key: ${utils.darksky_key}`);
     }
 });

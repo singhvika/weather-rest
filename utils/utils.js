@@ -82,7 +82,9 @@ const getWeather = (location) => {
 
 module.exports = {
     getCoords,
-    getWeather
+    getWeather,
+    darksky_key,
+    geocode_key
 }
 
 
