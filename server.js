@@ -34,7 +34,7 @@ server.get('/weather', (req, res) => {
     })
 })
 
-server.listen(3000, (error)=> {
+server.listen(port, (error)=> {
     if (error)
     {
         console.log(error)
