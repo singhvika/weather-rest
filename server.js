@@ -1,4 +1,4 @@
-
+const fs = require('fs');
 const express = require('express');
 
 const utils = require('./utils/utils.js');
@@ -29,6 +29,7 @@ server.get('/weather', (req, res) => {
         res.send(weather);
     }).catch((err) => {
         console.log(err);
+        fs.appendFile('server.log', err);
         res.send({});
     })
 })
@@ -37,6 +38,8 @@ server.listen(3000, (error)=> {
     if (error)
     {
         console.log(error)
+        fs.writeFile('startuplogs.txt', error);
+
     }
     else{
         console.log(`server @ ${port}`);
