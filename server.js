@@ -4,7 +4,11 @@ const express = require('express');
 const utils = require('./utils/utils.js');
 
 const port = process.env.PORT || 3000;
+
+app.use(express.static(__dirname    +   '/public'));
+
 var server = express();
+
 
 
 server.get('/', (req, res) => {
