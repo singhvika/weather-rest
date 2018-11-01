@@ -16,7 +16,7 @@ server.get('/', (req, res) => {
     );
 })
 
-server.get('/weather', (req, res) => {
+server.get('/weather/json', (req, res) => {
     const address = req.query.address;
     if (!address)
     {
