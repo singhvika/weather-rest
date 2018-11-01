@@ -1,8 +1,12 @@
 
-const request = require('request');
-// to run it in local, pleaseinser your keys before running
-const geocode_key = process.env.geocode_key;
-const darksky_key = process.env.darksky_key;
+const request   =   require('request');
+const fs        =   require('fs');
+const licenseUtils   =   require('./licenseUtils.js');
+
+const keys = licenseUtils.keys;
+
+const geocode_key = keys.geocode_key || process.env.geocode_key;
+const darksky_key = keys.darksky_key || process.env.darksky_key;
 
 
 const getCoords = (address) => {
