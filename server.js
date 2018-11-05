@@ -4,20 +4,13 @@ const express = require('express');
 const utils = require('./utils.js');
 
 const port = process.env.PORT || 3000;
-
-
-
 var server = express();
+
+server.set('view engine', 'hbs');
 server.use(express.static(__dirname    +   '/public'));
 
-
 server.get('/', (req, res) => {
-    res.send(
-        {
-            'name': 'vikas',
-            'age':'25' 
-        }
-    );
+    res.render('home.hbs');
 })
 
 server.get('/weather/json', (req, res) => {
