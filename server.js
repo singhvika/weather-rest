@@ -7,13 +7,13 @@ const port = process.env.PORT || 3000;
 var server = express();
 
 server.set('view engine', 'hbs');
-server.use(express.static(__dirname    +   '/public'));
+server.use(express.static(__dirname +   '/public'));
 
 server.get('/', (req, res) => {
     res.render('home.hbs');
 })
 
-server.get('/weather/json', (req, res) => {
+server.get('/weather/address/json', (req, res) => {
     const address = req.query.address;
     if (!address)
     {
@@ -29,6 +29,28 @@ server.get('/weather/json', (req, res) => {
         fs.appendFile('server.log', err);
         res.send({});
     })
+})
+
+server.get('/weather/location/json', (req, res) => {
+    let location = {};
+    location.lat = req.query.lat;
+    location.lng = req.query.lng;
+
+    if (location.lat && location.lng)
+    {
+        utils.getWeather(location).then ((weather)=> {
+            res.send(weather);
+
+        }).catch((err)=> { 
+            console.log(err);
+            fs.appendFile('server.log', err);
+            res.send({});
+        })
+    }
+    else
+    {
+        res.send({});
+    }
 })
 
 server.listen(port, (error)=> {
