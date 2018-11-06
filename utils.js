@@ -2,12 +2,11 @@
 const request   =   require('request');
 const fs        =   require('fs');
 const licenseUtils   =   require('./licenseUtils.js');
-    
+
 const keys = licenseUtils.keys;
 
 const geocode_key = keys.geocode_key || process.env.geocode_key;
 const darksky_key = keys.darksky_key || process.env.darksky_key;
-
 
 const getCoords = (address) => {
     return new Promise((resolve, reject) => {
@@ -84,9 +83,38 @@ const getWeather = (location) => {
     })
 }
 
+
+
+const getAddress = (coords) => {
+    return new Promise((resolve, reject) => {
+        if (geocode_key)
+        {
+            if (!coords.lat || !coords.lng)
+            {
+                reject(Error(`no latitude and longitude`));
+            }
+            let uri = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat},${coords.lng}&key=${geocode_key}`;
+            makeRequest(uri).then((response) => {
+                if (response.body.status=== "OK"){
+                    resolve(response.body.results[0].formatted_address);
+                }
+                else {
+                    reject(Error(`invalid location`));
+                }
+                
+            })
+        }
+        else{
+            reject(Error(`please provide a geocode key`));
+        }
+    })
+}
+
+
 module.exports = {
     getCoords,
     getWeather,
+    getAddress,
     darksky_key,
     geocode_key
 }

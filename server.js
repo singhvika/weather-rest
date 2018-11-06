@@ -38,10 +38,17 @@ server.get('/weather/location/json', (req, res) => {
 
     if (location.lat && location.lng)
     {
+        let weatherJSON = {};
         utils.getWeather(location).then ((weather)=> {
-            res.send(weather);
-
-        }).catch((err)=> { 
+            weatherJSON.summary = weather.summary;
+            weatherJSON.temperature = weather.temperature;
+            weatherJSON.feelslike = weather.apparentTemperature;
+            return utils.getAddress(location);
+        }).then((address) => {
+            weatherJSON.address = address;
+            res.send(weatherJSON);
+        })
+        .catch((err)=> { 
             console.log(err);
             fs.appendFile('server.log', err);
             res.send({});
@@ -51,6 +58,20 @@ server.get('/weather/location/json', (req, res) => {
     {
         res.send({});
     }
+})
+
+server.get('/address/reverse/json',(req, res) => {
+    let location = {};
+    location.lat = req.query.lat;
+    location.lng = req.query.lng;
+
+    if (location.lat && location.lng)
+    {
+        utils.getAddress(location).then((address) => {
+
+        })
+    }
+    res.send({})
 })
 
 server.listen(port, (error)=> {
