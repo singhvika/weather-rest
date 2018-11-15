@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     getLocation.then((location) => {
         console.log(location);
         var xhttp = new XMLHttpRequest();
-        xhttp.open('GET',`/weather/location/json?lat=${location.lat}&lng=${location.lng}`, true);
+        xhttp.open('GET',`/weather/location/json?lat=${location.lat}&lng=${location.lng}&t=`+(new Date()).getTime+Math.random()*101, true);
         xhttp.onreadystatechange = function(){
             if (this.readyState == 4 && this.status == 200){                
                 weatherDiv.innerHTML = this.responseText;
