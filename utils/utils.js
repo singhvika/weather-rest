@@ -1,12 +1,12 @@
 
 const request   =   require('request');
 const fs        =   require('fs');
-const licenseUtils   =   require('./licenseUtils.js');
+const licenseUtils   =   require(__dirname+'/../licenseUtils/licenseUtils.js');
 
 const keys = licenseUtils.keys;
 
-const geocode_key = keys.geocode_key || process.env.geocode_key;
-const darksky_key = keys.darksky_key || process.env.darksky_key;
+const geocode_key = keys.geocode_key
+const darksky_key = keys.darksky_key
 
 const getCoords = (address) => {
     return new Promise((resolve, reject) => {
@@ -19,7 +19,9 @@ const getCoords = (address) => {
             let uri = encodeURI(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${geocode_key}`);
             makeRequest(uri).then((response) => {
                 if (response.body.status==='OK'){
-                    resolve(response.body.results[0].geometry.location);
+                    let location = response.body.results[0].geometry.location;
+                    location.address = response.body.results[0].formatted_address;
+                    resolve(location);
                 }
                     
                 console.log(response.body.results.length);

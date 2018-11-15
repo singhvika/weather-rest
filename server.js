@@ -1,9 +1,9 @@
 const fs = require('fs');
 const express = require('express');
 
-const utils = require('./utils.js');
+const utils = require(__dirname+'/utils/utils.js');
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3002;
 var server = express();
 
 server.set('view engine', 'hbs');
@@ -19,11 +19,15 @@ server.get('/weather/address/json', (req, res) => {
     {
         res.send(`please provide address`);
     }
-    
+    let weatherJSON = {};
     utils.getCoords(address).then((location) => {
+        weatherJSON.location = location
         return utils.getWeather(location);
     }).then((weather) => {
-        res.send(weather);
+        weatherJSON.summary = weather.summary;
+        weatherJSON.temperature = weather.temperature;
+        weatherJSON.feelslike = weather.apparentTemperature;
+        res.send(weatherJSON);
     }).catch((err) => {
         console.log(err);
         fs.appendFile('server.log', err);
@@ -43,9 +47,10 @@ server.get('/weather/location/json', (req, res) => {
             weatherJSON.summary = weather.summary;
             weatherJSON.temperature = weather.temperature;
             weatherJSON.feelslike = weather.apparentTemperature;
+            weatherJSON.location = location;
             return utils.getAddress(location);
         }).then((address) => {
-            weatherJSON.address = address;
+            weatherJSON.location.address = address;
             res.send(weatherJSON);
         })
         .catch((err)=> { 
@@ -78,7 +83,7 @@ server.listen(port, (error)=> {
     if (error)
     {
         console.log(error)
-        fs.writeFile('startuplogs.txt', error);
+        fs.appendFile('startuplogs.txt', new Date() +   '   '   +   error);
 
     }
     else{
