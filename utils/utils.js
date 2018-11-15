@@ -91,16 +91,19 @@ const getAddress = (coords) => {
     return new Promise((resolve, reject) => {
         if (geocode_key)
         {
+            console.log("GEOCODE: "+geocode_key);
             if (!coords.lat || !coords.lng)
             {
                 reject(Error(`no latitude and longitude`));
             }
             let uri = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat},${coords.lng}&key=${geocode_key}`;
+            console.log(uri);
             makeRequest(uri).then((response) => {
                 if (response.body.status=== "OK"){
                     resolve(response.body.results[0].formatted_address);
                 }
                 else {
+                    console.log(response.body);
                     reject(Error(`invalid location`+ coords.toString()));
                 }
                 

@@ -6,7 +6,7 @@ var getLocation = new Promise((resolve, reject) => {
                 "lat":    position.coords.latitude,
                 "lng":    position.coords.longitude 
             }
-            console.log('user location is: '+location);
+            console.log(location);
             resolve (location);
         })
     }
@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var weatherDiv = document.getElementById('user-weather');
     getLocation.then((location) => {
+        console.log(location);
         var xhttp = new XMLHttpRequest();
         xhttp.open('GET',`/weather/location/json?lat=${location.lat}&lng=${location.lng}`, true);
         xhttp.onreadystatechange = function(){
