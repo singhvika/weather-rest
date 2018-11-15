@@ -101,7 +101,7 @@ const getAddress = (coords) => {
                     resolve(response.body.results[0].formatted_address);
                 }
                 else {
-                    reject(Error(`invalid location`));
+                    reject(Error(`invalid location`+ coords.toString()));
                 }
                 
             })

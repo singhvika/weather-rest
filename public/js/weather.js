@@ -2,10 +2,12 @@ var getLocation = new Promise((resolve, reject) => {
     if (navigator.geolocation)
     {
         navigator.geolocation.getCurrentPosition(function(position) {
-            resolve ({
+            let location = {
                 "lat":    position.coords.latitude,
-                "lng":    position.coords.longitude
-            });
+                "lng":    position.coords.longitude 
+            }
+            console.log('user location is: '+location);
+            resolve (location);
         })
     }
     else{

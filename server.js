@@ -30,7 +30,7 @@ server.get('/weather/address/json', (req, res) => {
         res.send(weatherJSON);
     }).catch((err) => {
         console.log(err);
-        fs.appendFile('server.log', err);
+        fs.appendFile('server.log', new Date() + '  	' + err);
         res.send({});
     })
 })
@@ -55,7 +55,7 @@ server.get('/weather/location/json', (req, res) => {
         })
         .catch((err)=> { 
             console.log(err);
-            fs.appendFile('server.log', err);
+            fs.appendFile('error.log', new Date() + '   ' +err);
             res.send({});
         })
     }
